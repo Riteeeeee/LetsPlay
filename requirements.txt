@@ -1,0 +1,5 @@
+
+
+flask
+gunicorn
+pysqlite3
