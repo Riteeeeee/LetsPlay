@@ -1,19 +1,32 @@
-#Hosted_link: https://letsplay-qu0g.onrender.com/
+# Let's Play
 
-Admin Passwords:
-  username=ritee
-  password=123
-TechStacks: MySql,Python,Flask,Html,Css,JavaScript.
+**Hosted Link**: [Let's Play App](https://letsplay-qu0g.onrender.com/)
 
-#Features:
-1.User Feedback
-2.Avoid Multiple Registration.
-3.User friendly UI
-4.Database Integration
-5.Multiple Courts for multiple sports at multiple locations.
-6.Admin Modifications and insight update.
+---
 
-#Screenshots
-![Uploading image.png…]()
-![Uploading image.png…]()
-![Uploading image.png…]()
+## Admin Login
+
+- **Username**: `ritee`  
+- **Password**: `123`
+
+---
+
+## Tech Stack
+
+- **Backend**: Python, Flask
+- **Frontend**: HTML, CSS, JavaScript
+- **Database**: MySQL
+
+---
+
+## Features
+
+1. **User Feedback**: Easily gather and manage feedback from users.
+2. **Avoid Multiple Registrations**: Prevent users from registering multiple times.
+3. **User-Friendly UI**: Clean and intuitive interface for easy navigation.
+4. **Database Integration**: Seamless connection with MySQL for data storage.
+5. **Multiple Courts**: Book courts for different sports across various locations.
+6. **Admin Modifications**: Admin can modify and update insights.
+
+---
+
