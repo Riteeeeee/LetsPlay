@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .letstest {
+        font-size: 20px;
+    }
+
+    /* CSS styles for the navigation drawer */
+    .drawer {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        right: 100;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+
+    .drawer a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .drawer a:hover {
+        color: #f1f1f1;
+    }
+
+    .drawer .close {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    /* CSS styles for the main content */
+    #main {
+        transition: margin-left .5s;
+        padding: 16px;
+    }
+
+    .transparent-button {
+        background-color: transparent;
+        border: none;
+        color: #000;
+        padding: 10px 10px;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 10px;
+        cursor: pointer;
+    }
+
+    /* Styling the search bar */
+    .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .search-container {
+        position: relative;
+        width: 400px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 25px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        outline: none;
+    }
+
+    input[type="text"]:focus {
+        border-color: #007BFF;
+    }
+
+    .search-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #888;
+    }
+
+    /* Adjusting layout for buttons */
+    .navbar .transparent-button {
+        position: absolute;
+        left: 20px;
+    }
+
+    /* Styling for popular locations cards */
+    .popular-locations {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .popular-locations h2 {
+        margin-bottom: 20px;
+        font-size: 28px;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 15px;
+        background-color: #fff;
+    }
+
+    .card-body h3 {
+        margin: 10px 0;
+        font-size: 20px;
+        font-family: 'Rubik', sans-serif;
+    }
+
+    .card-body p {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content=" width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fight Against Cancer</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;1,200&family=Rubik:wght@300;400;700&display=swap">
+    <script src="https://kit.fontawesome.com/2ab33e9dce.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="myDrawer" class="drawer">
+        <a href="javascript:void(0)" class="close" onclick="closeDrawer()">&times;</a>
+        <a href="javascript:void(0)" onclick="closeDrawer()">Home</a>
+        <a href="#">Career</a>
+        <a href="{{ url_for('register_func') }}">Register</a>
+        <a href="{{ url_for('contact_us') }}">Contact</a>
+        <a href="{{ url_for('FAQ_func') }}">Frequently asked questions</a>
+        <a href="{{ url_for('index_func') }}">Admin login</a>
+        <a href="{{ url_for('donation') }}">Help us</a>
+    </div>
+
+    <script>
+            function submitForm(location) {
+        const form = document.getElementById('location-form'); // Get the form
+        form.location.value = location; // Set the location value
+        form.submit(); // Submit the form
+    }
+        function openDrawer() {
+            document.getElementById("myDrawer").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeDrawer() {
+            document.getElementById("myDrawer").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
+
+    <div class="header">
+        <ul>
+        <!-- Use Jinja2 templating to loop through the array -->
+        {% for element in data %}
+            <li>{{ element }}</li>
+        {% endfor %}
+    </ul>
+        <div class="container">
+            <div class="navbar">
+                <button onclick="openDrawer()" class="transparent-button">
+                    <img src="/static/images/list.png" class="list" width="30px">
+                </button>
+
+                <!-- Search bar container -->
+                <div class="search-container">
+                    <input type="text" placeholder="Search...">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </div>
+
+            <!-- Popular locations section -->
+            <div class="popular-locations">
+    <h2>Trending Search...</h2>
+    <div class="cards-container">
+        <div class="card" onclick="submitForm('Indiranagar')"> <!-- Removed the <a> tag -->
+            <img src="https://via.placeholder.com/300x180" alt="Location 1">
+            <div class="card-body">
+                <h3>Indiranagar</h3>
+                <p>The city that never sleeps, offering a blend of iconic landmarks and vibrant culture.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="submitForm('Koramangala')"> <!-- Added onclick for other cards -->
+            <img src="https://via.placeholder.com/300x180" alt="Location 2">
+            <div class="card-body">
+                <h3>Koramangala</h3>
+                <p>Known for its art, fashion, and cafes, Koramangala is the epitome of beauty and culture.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="submitForm('Kadubeesanhalli')"> <!-- Added onclick for other cards -->
+            <img src="https://via.placeholder.com/300x180" alt="Location 3">
+            <div class="card-body">
+                <h3>Kadubeesanhalli</h3>
+                <p>A bustling city blending modernity with traditional temples and beautiful parks.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="cards-container">
+        <div class="card" onclick="submitForm('Bellandur')"> <!-- Added onclick for other cards -->
+            <img src="https://via.placeholder.com/300x180" alt="Location 4">
+            <div class="card-body">
+                <h3>Bellandur</h3>
+                <p>Known for its beautiful lakes and parks, offering a serene escape from city life.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="submitForm('Marathali')"> <!-- Added onclick for other cards -->
+            <img src="https://via.placeholder.com/300x180" alt="Location 5">
+            <div class="card-body">
+                <h3>Marathali</h3>
+                <p>A vibrant locality known for its bustling IT parks and lively atmosphere.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="submitForm('Bagmaane')"> <!-- Added onclick for other cards -->
+            <img src="https://via.placeholder.com/300x180" alt="Location 6">
+            <div class="card-body">
+                <h3>Bagmaane</h3>
+                <p>Discover the heart of the Roman Empire with its ancient ruins and timeless charm.</p>
+            </div>
+        </div>
+    </div>
+
+    <form id="location-form" action="/store-location" method="POST" style="display: none;"> <!-- Hidden form -->
+        <input type="hidden" name="location" value=""> <!-- Hidden input for the location -->
+    </form>
+</div>
+
+<script>
+    function submitForm(location) {
+        const form = document.getElementById('location-form'); // Get the form
+        form.location.value = location; // Set the location value
+        form.submit(); // Submit the form
+    }
+</script>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
