@@ -5,9 +5,10 @@ import jsonify
 app=Flask(__name__)
 # con=sqlite3.connect("registration.db")
 # con.execute("create table registration(username VARCHAR,phone INTEGER,gender CHAR,blood VARCHAR,email TEXT)")
+details=[]
+
 @app.route("/")
 def home():
-
     return render_template('index.html')
 @app.route('/login', methods=['GET', 'POST'])
 def index_func():
@@ -29,67 +30,50 @@ def checkfreeslot():
     if request.method == 'POST':
         return redirect(url_for('cal.html'))
     return render_template('cal.html')
-databases={'arjun':'123'}
+databases={'ritee':'123'}
+@app.route('/books', methods=['GET', 'POST'])
+def books():
+    global tim
+    tim=request.form['slot']
+    print(tim)
+    if request.method == 'POST':
+        return render_template('register.html')
 
-
-@app.route('/submit-date', methods=['POST'])
-def submit_date():
-    selected_date = request.form['selected_date']
-    print(selected_date)  # Debug: print the selected date
-
-    # Connect to the SQLite database
-    conn = sqlite3.connect('slotdetails.db')
-    cursor = conn.cursor()
-
-    # Corrected SQL query (changed 'fROM' to 'FROM')
-    cursor.execute('SELECT * FROM slotdetails')
-    results = cursor.fetchall()  # Fetch all results
-    conn.close()  # Close the database connection
-
-    print(results)  # Debug: print the results from the database
-
-    # Initialize available and booked slots
-    available_slots = ['4PM-5PM', '5PM-6PM', '6PM-7PM', '7PM-8PM', '8PM-9PM', '9PM-10PM']
-    booked_slots = [row[3] for row in results if row[2] == selected_date]  # Ensure index matches your schema
-
-    # Remove booked slots from available slots
-    for slot in booked_slots:
-        if slot in available_slots:
-            available_slots.remove(slot)
-
-    print(available_slots)  # Debug: print available slots after removal
-
-    # Pass available slots to the template
-    return render_template('cal.html', available_slots=available_slots)
+@app.route('/store-location', methods=['POST'])
+def store_location():
+    global location
+    location = request.form['location']  # Get the location from the form
+    print(f"Location stored: {location}")  # Print the location to the console (or handle it as needed)
+    details.append(location)
+    return render_template('sports.html')
+    # You can store the location in a variable or database, or process it further here
 
 
 
+@app.route('/submit-sports', methods=['POST'])  # Updated endpoint name
+def submit_sports():
+    global sports
+    sports = request.form['sports']  # Get the sports from the form
+    print(f"Sports stored: {sports}")  # Print the sports to the console (or handle it as needed)
+    details.append(sports)
+    # You can store the sports in a variable or database, or process it further here
+    return render_template('court.html')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@app.route('/submit-courts', methods=['POST'])  # Updated endpoint name
+def submit_courts():
+    global courts
+    courts = request.form['courts']  # Get the courts from the form
+    print(f"courts stored: {courts}")  # Print the sports to the console (or handle it as needed)
+    details.append(courts)
+    # You can store the sports in a variable or database, or process it further here
+    return render_template('cal.html')
 
 
 @app.route('/form_login',methods=['POST','GET'])
 def login():
     name=request.form['username']
     passwrd=request.form['password']
+    print(name,passwrd)
     if name not in databases:
         return render_template('login.html')
     else:
@@ -97,7 +81,7 @@ def login():
             return render_template('login.html')
         else:
                 # Connect to the SQLite database
-                conn = sqlite3.connect('registration.db')
+                conn = sqlite3.connect('registrations.db')
                 cursor = conn.cursor()
 
                 # Execute a query to retrieve data from the database
@@ -114,19 +98,24 @@ def login():
 registration=[]
 @app.route('/form_register',methods=['POST','GET'])
 def register():
+   print("hello")
    if request.method=="POST":
       try:
         naam=request.form['username']
         number=request.form['phone']
-        gen=request.form['gender']
-        bld=request.form['blood']
         mail=request.form['email']
         action="REQUEST"
-        with sqlite3.connect("registration.db") as con:
+        with sqlite3.connect("registrations.db") as con:
             cur=con.cursor()
-            cur.execute("INSERT into registration VALUES(?,?,?,?,?,?)",(naam,number,gen,bld,mail,action))
+            cur.execute("INSERT into registration VALUES(?,?,?,?,?)",(naam,number,mail,sports,location))
             con.commit()
             print("OPERATION SUCCESSFUL")
+        with sqlite3.connect("slotdetails.db") as con:
+            cur=con.cursor()
+            cur.execute("INSERT into slotdetails VALUES(?,?,?,?,?)",(location,sports,selected_date,tim,courts))
+            con.commit()
+            print("OPERATION SUCCESSFUL")
+
       except: con.rollback()
       finally:
           con.close()
@@ -198,5 +187,35 @@ def get_email():
 
     # Render the HTML template and pass the data to it
     return render_template('user_response.html', data=data)
-if __name__ == '__main__':
-    app.run()
+
+@app.route('/submit-date', methods=['POST'])
+def submit_date():
+    global selected_date
+    selected_date = request.form['selected_date']
+    print(selected_date)  # Debug: print the selected date
+
+    # Connect to the SQLite database
+    conn = sqlite3.connect('slotdetails.db')
+    cursor = conn.cursor()
+    print(location,sports)
+    # Corrected SQL query (changed 'fROM' to 'FROM')
+    cursor.execute('SELECT * FROM slotdetails')
+    results = cursor.fetchall()  # Fetch all results
+    conn.close()  # Close the database connection
+
+    print(results)  # Debug: print the results from the database
+
+    # Initialize available and booked slots
+    available_slots = ['4PM-5PM', '5PM-6PM', '6PM-7PM', '7PM-8PM', '8PM-9PM', '9PM-10PM']
+    booked_slots = [row[3] for row in results if row[2] == selected_date and row[0]==location and row[1]==sports and row[4]==courts]  # Ensure index matches your schema
+
+    # Remove booked slots from available slots
+    for slot in booked_slots:
+        if slot in available_slots:
+            available_slots.remove(slot)
+
+    print(available_slots)  # Debug: print available slots after removal
+
+    # Pass available slots to the template
+    return render_template('cal.html', available_slots=available_slots)
+

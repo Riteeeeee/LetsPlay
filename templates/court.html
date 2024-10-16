@@ -179,11 +179,6 @@
     </div>
 
     <script>
-            function submitForm(location) {
-        const form = document.getElementById('location-form'); // Get the form
-        form.location.value = location; // Set the location value
-        form.submit(); // Submit the form
-    }
         function openDrawer() {
             document.getElementById("myDrawer").style.width = "250px";
             document.getElementById("main").style.marginLeft = "250px";
@@ -196,12 +191,6 @@
     </script>
 
     <div class="header">
-        <ul>
-        <!-- Use Jinja2 templating to loop through the array -->
-        {% for element in data %}
-            <li>{{ element }}</li>
-        {% endfor %}
-    </ul>
         <div class="container">
             <div class="navbar">
                 <button onclick="openDrawer()" class="transparent-button">
@@ -214,76 +203,62 @@
 <!--                    <span class="search-icon">🔍</span>-->
 <!--                </div>-->
             </div>
-
             <!-- Popular locations section -->
-            <div class="popular-locations">
-    <h1>Available Locations</h1>
+<div class="popular-locations">
+    <h1>Available Courts</h1>
     <div class="cards-container">
-        <div class="card" onclick="submitForm('Indiranagar')"> <!-- Removed the <a> tag -->
+        <div class="card" onclick="submitForm('Court1')">
             <img src="https://via.placeholder.com/300x180" alt="Location 1">
             <div class="card-body">
-                <h3>Indiranagar</h3>
-                <p>The city that never sleeps, offering a blend of iconic landmarks and vibrant culture.</p>
+                <h3>Court 1</h3>
             </div>
         </div>
 
-        <div class="card" onclick="submitForm('Koramangala')"> <!-- Added onclick for other cards -->
+        <div class="card" onclick="submitForm('Court2')">
             <img src="https://via.placeholder.com/300x180" alt="Location 2">
             <div class="card-body">
-                <h3>Koramangala</h3>
-                <p>Known for its art, fashion, and cafes, Koramangala is the epitome of beauty and culture.</p>
+                <h3>Court 2</h3>
             </div>
         </div>
 
-        <div class="card" onclick="submitForm('Kadubeesanhalli')"> <!-- Added onclick for other cards -->
+        <div class="card" onclick="submitForm('Court3')">
             <img src="https://via.placeholder.com/300x180" alt="Location 3">
             <div class="card-body">
-                <h3>Kadubeesanhalli</h3>
-                <p>A bustling city blending modernity with traditional temples and beautiful parks.</p>
+                <h3>Court 3</h3>
             </div>
         </div>
     </div>
 
     <div class="cards-container">
-        <div class="card" onclick="submitForm('Bellandur')"> <!-- Added onclick for other cards -->
+        <div class="card" onclick="submitForm('Court4')">
             <img src="https://via.placeholder.com/300x180" alt="Location 4">
             <div class="card-body">
-                <h3>Bellandur</h3>
-                <p>Known for its beautiful lakes and parks, offering a serene escape from city life.</p>
+                <h3>Court 4</h3>
             </div>
         </div>
 
-        <div class="card" onclick="submitForm('Marathali')"> <!-- Added onclick for other cards -->
+        <div class="card" onclick="submitForm('Court5')">
             <img src="https://via.placeholder.com/300x180" alt="Location 5">
             <div class="card-body">
-                <h3>Marathali</h3>
-                <p>A vibrant locality known for its bustling IT parks and lively atmosphere.</p>
-            </div>
-        </div>
-
-        <div class="card" onclick="submitForm('Bagmaane')"> <!-- Added onclick for other cards -->
-            <img src="https://via.placeholder.com/300x180" alt="Location 6">
-            <div class="card-body">
-                <h3>Bagmaane</h3>
-                <p>Discover the heart of the Roman Empire with its ancient ruins and timeless charm.</p>
+                <h3>Court 5</h3>
             </div>
         </div>
     </div>
 
-    <form id="location-form" action="/store-location" method="POST" style="display: none;"> <!-- Hidden form -->
-        <input type="hidden" name="location" value=""> <!-- Hidden input for the location -->
+    <form id="courts-form" action="/submit-courts" method="POST" style="display: none;"> <!-- Updated form action -->
+        <input type="hidden" name="courts" value=""> <!-- Hidden input for sports -->
     </form>
 </div>
 
 <script>
-    function submitForm(location) {
-        const form = document.getElementById('location-form'); // Get the form
-        form.location.value = location; // Set the location value
+    function submitForm(court) {
+        const form = document.getElementById('courts-form'); // Get the form
+        form.courts.value = court; // Set the sports value
         form.submit(); // Submit the form
     }
 </script>
 
-            </div>
+
         </div>
     </div>
 </body>

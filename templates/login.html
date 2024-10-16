@@ -70,7 +70,7 @@
         <div class="login-container">
             <form class="login" action="/form_login" method="post">
             <div class="login-content">
-                <h1 class="text-center">Stem Cell Clinic Login</h1>
+                <h1 class="text-center">Arena Admin Login</h1>
                 <div class="form-group">
                     <label >Username</label>
                     <input type="text" name="username" class="form-control" placeholder="Username" required>
@@ -110,7 +110,7 @@
 
                 if (username === adminUsername && password === adminPassword) {
                     // Successful login; redirect to admin panel or dashboard
-                    window.location.href = "admin_panel.html";
+                    window.location.href = "user_response.html";
                 } else {
                     // Incorrect credentials; display an error message
                     alert("Invalid username or password.");
